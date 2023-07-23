@@ -1,8 +1,7 @@
 'use client'
 import io from 'socket.io-client'
 import { useEffect, useState } from 'react'
-const env = process.env.NODE_ENV
-const url =  process.env.API_URL
+const url =  process.env.NEXT_PUBLIC_API_URL
 const socket = io.connect(url)
 
 export default function Home() {
