@@ -1,7 +1,7 @@
 'use client'
 import io from 'socket.io-client'
 import { useEffect, useState } from 'react'
-const url =  process.env.NEXT_PUBLIC_API_URL
+const url = "http://localhost:3001"
 const socket = io.connect(url)
 
 export default function Home() {
@@ -52,7 +52,6 @@ export default function Home() {
 
   return (
     <main className="grid place-center py-10">
-      {process.env.NODE_ENV === "development" ? "http://localhsot:3001" : "http://13.125.167.110"}
       <h2 className="text-2xl text-center">{isJoined ? `room ${room} `: "Enter a room number"}</h2>
       <div className="grid gap-3 max-w-3xl m-auto py-5">
       {isJoined && (
