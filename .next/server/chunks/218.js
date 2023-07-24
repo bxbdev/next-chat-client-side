@@ -164,7 +164,7 @@ _export(exports, {
     }
 });
 const _requestcookies = __webpack_require__(9934);
-const _headers = __webpack_require__(3423);
+const _headers = __webpack_require__(6532);
 const _cookies = __webpack_require__(1220);
 const _requestasyncstorage = __webpack_require__(1715);
 const _actionasyncstorage = __webpack_require__(4876);
@@ -7356,7 +7356,7 @@ _export(exports, {
         return setLazyProp;
     }
 });
-const _headers = __webpack_require__(3423);
+const _headers = __webpack_require__(6532);
 const _constants = __webpack_require__(2078);
 function getCookieParser(headers) {
     return function parseCookie() {
@@ -7559,7 +7559,7 @@ Object.defineProperty(exports, "RequestAsyncStorageWrapper", ({
     }
 }));
 const _approuterheaders = __webpack_require__(3909);
-const _headers = __webpack_require__(3423);
+const _headers = __webpack_require__(6532);
 const _requestcookies = __webpack_require__(9934);
 const _cookies = __webpack_require__(1220);
 const _draftmodeprovider = __webpack_require__(2146);
@@ -9723,7 +9723,7 @@ class NextURL {
 
 /***/ }),
 
-/***/ 3423:
+/***/ 6532:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -10837,7 +10837,7 @@ function addPathPrefix(path, prefix) {
 
 /***/ }),
 
-/***/ 8225:
+/***/ 6660:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
@@ -10902,7 +10902,7 @@ Object.defineProperty(exports, "formatNextPathnameInfo", ({
 }));
 const _removetrailingslash = __webpack_require__(5105);
 const _addpathprefix = __webpack_require__(2595);
-const _addpathsuffix = __webpack_require__(8225);
+const _addpathsuffix = __webpack_require__(6660);
 const _addlocale = __webpack_require__(8625);
 function formatNextPathnameInfo(info) {
     let pathname = (0, _addlocale.addLocale)(info.pathname, info.locale, info.buildId ? undefined : info.defaultLocale, info.ignorePrefix);
