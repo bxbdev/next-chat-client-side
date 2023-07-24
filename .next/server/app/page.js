@@ -404,13 +404,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6786);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3423);
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9604);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8038);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
 /* __next_internal_client_entry_do_not_use__ default auto */ 
 
 
-const url = "http://127.0.0.1:3001" ?? 0;
+const url = "https://server.seekdecor.online";
 const socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1__/* ["default"].connect */ .ZP.connect(url);
 function Home() {
     const [message, setMessage] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("");
