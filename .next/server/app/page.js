@@ -410,7 +410,7 @@ __webpack_require__.r(__webpack_exports__);
 /* __next_internal_client_entry_do_not_use__ default auto */ 
 
 
-const url = "http://localhost:3001";
+const url = "http://server.seekdecor.online" ?? 0;
 const socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1__/* ["default"].connect */ .ZP.connect(url);
 function Home() {
     const [message, setMessage] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("");

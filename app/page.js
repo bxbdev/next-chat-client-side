@@ -1,7 +1,7 @@
 'use client'
 import io from 'socket.io-client'
 import { useEffect, useState } from 'react'
-const url = "http://localhost:3001"
+const url = process.env.NEXT_PUBLIC_API_URL ?? "http://server.seekdecor.online"
 const socket = io.connect(url)
 
 export default function Home() {
