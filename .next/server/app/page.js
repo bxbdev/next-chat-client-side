@@ -417,8 +417,12 @@ function Home() {
     const [room, setRoom] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("");
     const [messages, setMessages] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
     const [isJoined, setJoined] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false);
-    const [isConnected, setConnected] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false);
+    const [isConnected, setIsConnected] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false);
     (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(()=>{
+        socket.on("connect", ()=>{
+            console.log("Connected");
+            setIsConnected(true);
+        });
         socket.on("receive_message", (data)=>{
             setMessages((prev)=>[
                     ...prev,
@@ -428,13 +432,14 @@ function Home() {
                     }
                 ]);
         });
-        socket.on("connect_error", (error)=>{
-            console.error("連線錯誤：", error);
+        socket.on("disconnect", ()=>{
+            console.log("disconnected");
             setIsConnected(false);
         });
-        return ()=>{
-            if (isConnected) socket.disconnect();
-        };
+        socket.on("connect_error", (error)=>{
+            console.error("Connected error: ", error);
+            socket.disconnect();
+        });
     }, []);
     const sendMessage = ()=>{
         setMessage("");
@@ -452,6 +457,10 @@ function Home() {
         });
     };
     const joinRoom = ()=>{
+        if (!isConnected) {
+            setIsConnected(true);
+            socket.connect();
+        }
         const message = `welcome ${socket.id} joined`;
         socket.emit("join_room", room);
         socket.emit("send_message", {
@@ -479,6 +488,7 @@ function Home() {
             userId: "system",
             message: `${socket.id} left`
         });
+        socket.disconnect();
     };
     return /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("main", {
         className: "grid place-center py-10",

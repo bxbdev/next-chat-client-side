@@ -8,9 +8,14 @@ export default function Home() {
   const [room, setRoom] = useState('')
   const [messages, setMessages] = useState([])
   const [isJoined, setJoined] = useState(false)
-  const [isConnected, setConnected] = useState(false)
+  const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
+    socket.on('connect', () => {
+      console.log('Connected')
+      setIsConnected(true)
+    })
+
     socket.on("receive_message", (data) => {
       setMessages((prev) => [
         ...prev,
@@ -18,14 +23,15 @@ export default function Home() {
       ])
     })
 
-    socket.on('connect_error', (error) => {
-      console.error('連線錯誤：', error);
-      setIsConnected(false);
-    });
+    socket.on("disconnect", () => {
+      console.log("disconnected")
+      setIsConnected(false)
+    })
 
-    return () => {
-      if (isConnected) socket.disconnect()
-    }
+    socket.on('connect_error', (error) => {
+      console.error('Connected error: ', error)
+      socket.disconnect()
+    });
 
   }, [])
 
@@ -39,6 +45,11 @@ export default function Home() {
   }
 
   const joinRoom = () => {
+    if (!isConnected) {
+      setIsConnected(true)
+      socket.connect()
+    }
+
     const message = `welcome ${socket.id} joined`
     socket.emit('join_room', room)
     socket.emit('send_message', {room, userId: "system", message})
@@ -56,6 +67,7 @@ export default function Home() {
     setMessage("")
     socket.emit("leave_room", room)
     socket.emit("send_message", {room, userId: "system", message: `${socket.id} left`})
+    socket.disconnect()
   }
 
   return (
