@@ -31,15 +31,15 @@ module.exports = {
       watch: false,
       max_memory_restart: RUN_ENV_MAP[argEnv].max_memory_restart,
       env_local: {
-        NODE_ENV: 'development',
+        APP_ENV: 'local',
         PORT: 3000,
       },
       env_dev: {
-        NODE_ENV: 'development',
+        APP_ENV: 'dev',
         PORT: 3000,
       },
       env_prod: {
-        NODE_ENV: 'production',
+        APP_ENV: 'prod',
         PORT: 3000,
       }
     }

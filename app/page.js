@@ -8,11 +8,9 @@ export default function Home() {
   const [room, setRoom] = useState('')
   const [messages, setMessages] = useState([])
   const [isJoined, setJoined] = useState(false)
+  const socket = io(url)
 
   useEffect(() => {
-
-    const socket = io(url)
-
     socket.on("receive_message", (data) => {
       console.log(data)
       setMessages((prev) => [

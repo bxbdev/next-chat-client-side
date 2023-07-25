@@ -416,9 +416,9 @@ function Home() {
     const [room, setRoom] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("");
     const [messages, setMessages] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
     const [isJoined, setJoined] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false);
+    const socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .ZP)(url);
     (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(()=>{
-        const socket1 = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .ZP)(url);
-        socket1.on("receive_message", (data)=>{
+        socket.on("receive_message", (data)=>{
             console.log(data);
             setMessages((prev)=>[
                     ...prev,
@@ -428,9 +428,9 @@ function Home() {
                     }
                 ]);
         });
-        socket1.on("connect_error", (error)=>{
+        socket.on("connect_error", (error)=>{
             console.error("connection error", error);
-            socket1.disconnect();
+            socket.disconnect();
         });
     }, []);
     const sendMessage = ()=>{
