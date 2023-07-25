@@ -411,19 +411,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const url = "https://server.seekdecor.online";
-const socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .ZP)(url);
 function Home() {
-    const [message, setMessage] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("");
+    const [socket, setSocket] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(null);
+    const [userId, setUserId] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(null);
     const [room, setRoom] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("");
+    const [message, setMessage] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("");
     const [messages, setMessages] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
     const [isJoined, setJoined] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false);
-    const [isConnected, setIsConnected] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false);
+    const _socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .ZP)(url);
     (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(()=>{
-        socket.on("connect", ()=>{
-            console.log("Connected");
-            setIsConnected(true);
+        _socket.on("connect", ()=>{
+            setUserId(_socket.id);
         });
-        socket.on("receive_message", (data)=>{
+        _socket.on("receive_message", (data)=>{
             setMessages((prev)=>[
                     ...prev,
                     {
@@ -432,36 +432,36 @@ function Home() {
                     }
                 ]);
         });
-        socket.on("disconnect", ()=>{
-            console.log("disconnected");
-            setIsConnected(false);
-        });
-        socket.on("connect_error", (error)=>{
+        _socket.on("connect_error", (error)=>{
             console.error("Connected error: ", error);
-            socket.disconnect();
         });
+        _socket.on("disconnect", ()=>{
+            console.log("Disconnected");
+        });
+        setSocket(_socket);
+        return ()=>{
+            if (socket) {
+                _socket.disconnect();
+            }
+        };
     }, []);
     const sendMessage = ()=>{
         setMessage("");
         setMessages((prev)=>[
                 ...prev,
                 {
-                    userId: socket.id,
+                    userId,
                     message
                 }
             ]);
         socket.emit("send_message", {
             room,
-            userId: socket.id,
+            userId,
             message
         });
     };
     const joinRoom = ()=>{
-        if (!isConnected) {
-            setIsConnected(true);
-            socket.connect();
-        }
-        const message = `welcome ${socket.id} joined`;
+        const message = `welcome ${userId} joined`;
         socket.emit("join_room", room);
         socket.emit("send_message", {
             room,
@@ -486,9 +486,8 @@ function Home() {
         socket.emit("send_message", {
             room,
             userId: "system",
-            message: `${socket.id} left`
+            message: `${userId} left`
         });
-        socket.disconnect();
     };
     return /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("main", {
         className: "grid place-center py-10",

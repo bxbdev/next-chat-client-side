@@ -2,36 +2,43 @@
 import io from 'socket.io-client'
 import { useEffect, useState } from 'react'
 const url = "https://server.seekdecor.online"
-const socket = io(url)
 export default function Home() {
-  const [message, setMessage] = useState('')
+  const [socket, setSocket] = useState(null)
+  const [userId, setUserId] = useState(null)
   const [room, setRoom] = useState('')
+  const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([])
   const [isJoined, setJoined] = useState(false)
-  const [isConnected, setIsConnected] = useState(false)
 
+  const _socket = io(url)
   useEffect(() => {
-    socket.on('connect', () => {
-      console.log('Connected')
-      setIsConnected(true)
+
+    _socket.on('connect', () => {
+      setUserId(_socket.id)
     })
 
-    socket.on("receive_message", (data) => {
+    _socket.on("receive_message", (data) => {
       setMessages((prev) => [
         ...prev,
         {userId: data.userId, message: data.message}
       ])
     })
 
-    socket.on("disconnect", () => {
-      console.log("disconnected")
-      setIsConnected(false)
+    _socket.on('connect_error', (error) => {
+      console.error('Connected error: ', error)
     })
 
-    socket.on('connect_error', (error) => {
-      console.error('Connected error: ', error)
-      socket.disconnect()
-    });
+    _socket.on('disconnect', () => {
+      console.log('Disconnected')
+    })
+
+    setSocket(_socket)
+
+    return () => {
+      if (socket) {
+        _socket.disconnect()
+      }
+    }
 
   }, [])
 
@@ -39,18 +46,13 @@ export default function Home() {
     setMessage("")
     setMessages(( prev ) => [
       ...prev,
-      {userId: socket.id, message}
+      {userId, message}
     ] )
-    socket.emit('send_message',  {room, userId: socket.id, message })
+    socket.emit('send_message',  {room, userId, message })
   }
 
   const joinRoom = () => {
-    if (!isConnected) {
-      setIsConnected(true)
-      socket.connect()
-    }
-
-    const message = `welcome ${socket.id} joined`
+    const message = `welcome ${userId} joined`
     socket.emit('join_room', room)
     socket.emit('send_message', {room, userId: "system", message})
     setJoined(true)
@@ -66,8 +68,7 @@ export default function Home() {
     setMessages("")
     setMessage("")
     socket.emit("leave_room", room)
-    socket.emit("send_message", {room, userId: "system", message: `${socket.id} left`})
-    socket.disconnect()
+    socket.emit("send_message", {room, userId: "system", message: `${userId} left`})
   }
 
   return (
