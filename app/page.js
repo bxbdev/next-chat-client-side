@@ -1,9 +1,8 @@
 'use client'
 import io from 'socket.io-client'
 import { useEffect, useState } from 'react'
-const url = process.env.NODE_ENV === 'production'
-? process.env.NEXT_PUBLIC_API_URL
-: process.env.NEXT_PUBLIC_DEV_API_URL
+const url = "https://server.seekdecor.online/"
+
 const socket = io(url)
 
 export default function Home() {
