@@ -410,16 +410,16 @@ __webpack_require__.r(__webpack_exports__);
 /* __next_internal_client_entry_do_not_use__ default auto */ 
 
 
-const url = "https://server.seekdecor.online/";
+const url = "https://server.seekdecor.online";
+const socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .ZP)(url);
 function Home() {
     const [message, setMessage] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("");
     const [room, setRoom] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("");
     const [messages, setMessages] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
     const [isJoined, setJoined] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false);
-    const socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .ZP)(url);
+    const [isConnected, setConnected] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false);
     (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(()=>{
         socket.on("receive_message", (data)=>{
-            console.log(data);
             setMessages((prev)=>[
                     ...prev,
                     {
@@ -429,9 +429,12 @@ function Home() {
                 ]);
         });
         socket.on("connect_error", (error)=>{
-            console.error("connection error", error);
-            socket.disconnect();
+            console.error("連線錯誤：", error);
+            setIsConnected(false);
         });
+        return ()=>{
+            if (isConnected) socket.disconnect();
+        };
     }, []);
     const sendMessage = ()=>{
         setMessage("");

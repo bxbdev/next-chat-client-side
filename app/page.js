@@ -1,28 +1,31 @@
 'use client'
 import io from 'socket.io-client'
 import { useEffect, useState } from 'react'
-const url = "https://server.seekdecor.online/"
-
+const url = "https://server.seekdecor.online"
+const socket = io(url)
 export default function Home() {
   const [message, setMessage] = useState('')
   const [room, setRoom] = useState('')
   const [messages, setMessages] = useState([])
   const [isJoined, setJoined] = useState(false)
-  const socket = io(url)
+  const [isConnected, setConnected] = useState(false)
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
-      console.log(data)
       setMessages((prev) => [
         ...prev,
         {userId: data.userId, message: data.message}
       ])
     })
 
-    socket.on('connect_error',  (error) => {
-      console.error('connection error', error)
-      socket.disconnect()
-    })
+    socket.on('connect_error', (error) => {
+      console.error('連線錯誤：', error);
+      setIsConnected(false);
+    });
+
+    return () => {
+      if (isConnected) socket.disconnect()
+    }
 
   }, [])
 
