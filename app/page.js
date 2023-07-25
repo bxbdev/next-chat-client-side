@@ -3,8 +3,6 @@ import io from 'socket.io-client'
 import { useEffect, useState } from 'react'
 const url = "https://server.seekdecor.online/"
 
-const socket = io(url)
-
 export default function Home() {
   const [message, setMessage] = useState('')
   const [room, setRoom] = useState('')
@@ -12,6 +10,9 @@ export default function Home() {
   const [isJoined, setJoined] = useState(false)
 
   useEffect(() => {
+
+    const socket = io(url)
+
     socket.on("receive_message", (data) => {
       console.log(data)
       setMessages((prev) => [
@@ -20,7 +21,12 @@ export default function Home() {
       ])
     })
 
-  }, [socket])
+    socket.on('connect_error',  (error) => {
+      console.error('connection error', error)
+      socket.disconnect()
+    })
+
+  }, [])
 
   const sendMessage = () => {
     setMessage("")
