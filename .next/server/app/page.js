@@ -404,14 +404,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6786);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9604);
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7369);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8038);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
 /* __next_internal_client_entry_do_not_use__ default auto */ 
 
 
 const url = "https://server.seekdecor.online";
-const socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1__/* ["default"].connect */ .ZP.connect(url);
+const socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .ZP)(url);
 function Home() {
     const [message, setMessage] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("");
     const [room, setRoom] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("");
@@ -642,7 +642,7 @@ __webpack_require__.r(__webpack_exports__);
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [697,546], () => (__webpack_exec__(9694)));
+var __webpack_exports__ = __webpack_require__.X(0, [697,300], () => (__webpack_exec__(9694)));
 module.exports = __webpack_exports__;
 
 })();
